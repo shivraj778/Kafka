@@ -18,39 +18,38 @@ import java.util.Map;
 @EnableKafka
 public class KafkaConfig {
 
-	@Bean
-	public ConsumerFactory<String, String> consumerFactory() {
-		Map<String, Object> config = new HashMap<>();
-		config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.129:9092");
-		config.put(ConsumerConfig.GROUP_ID_CONFIG, "groupId");
-		config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-		return new DefaultKafkaConsumerFactory<>(config);
-	}
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, "groupId");
+        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        return new DefaultKafkaConsumerFactory<>(config);
+    }
 
-	@Bean
-	public ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory() {
-		ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-		factory.setConsumerFactory(consumerFactory());
-		return factory;
-	}
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> concurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
 
-	@Bean
-	public ProducerFactory<String,String> producerFactory()
-	{
-		Map<String,Object> config = new HashMap<>();
-		config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"192.168.1.129:9092");
-		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,StringSerializer.class);
-		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,StringSerializer.class);
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> config = new HashMap<>();
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-		return new DefaultKafkaProducerFactory<>(config);
-	}
+        return new DefaultKafkaProducerFactory<>(config);
+    }
 
-	@Bean
-	public KafkaTemplate<String,String> kafkaTemplate(){
-		return new KafkaTemplate<>(producerFactory());
-	}
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
 
 
 }
